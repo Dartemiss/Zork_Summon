@@ -102,8 +102,20 @@ Go south, east or west.
 Choose defeating the elemental summoner who is weak against your initial partner. For example if you chose babysnake go east.
 
 Lake:
-Here is Rik. Talk to him and he will summon Shark. Kill Shark and rik. Loot Rik to get the waterkey. Absorb Shark. Summon Shark.
+Here is Rik. Talk to him and he will summon Shark. Kill Shark and Rik. Loot Rik to get the waterkey. Absorb Shark. Summon Shark.
 Go west. Go west.
+
+Vulcan:
+Here is Serg. Talk to him and he will summon Dragon. Kill Dragon and Serg. Loot Serg to get the firekey. Absorb Dragon. Summon Dragon.
+Go east. Go south.
+
+Forest:
+Here is Pabl. Talk to him and he will summon Snake. Kill Snake and Pabl. Loot Pabl to get the waterkey. Absorb Snake. Summon Snake.
+Combine the three elemental keys to get the masterkey.
+Go north. Go north.
+
+Town:
+
 
 END
 
