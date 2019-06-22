@@ -812,6 +812,7 @@ bool Player::Help()
 	cout << "If all your monsters or you die the game ends." << endl;
 	cout << "There are 5 elemental types: fire, water, grass, darkness and light." << endl;
 	cout << "(Fire > Grass > Water > Fire) -- darkness and light are supereffective always." << endl;
+	cout << "Monsters have focus points: If they have 3 focus points they can use his ultimate." << endl;
 	cout << "All commands aren't case sensitive, capital letters don't matter" << endl;
 	cout << "These are all the available commands: " << endl;
 	cout << endl;
@@ -830,6 +831,7 @@ bool Player::Help()
 	cout << "inventory/i: Look the items that you own." << endl;
 	cout << "use/u (X) (Y): Use steroids = X in monster Y." << endl;
 	cout << "talk/tlk (X): Talk to NPC X." << endl;
+	cout << "monsters/m: Get a list of your monsters and if their are dead or alive." << endl;
 	cout << "-----------------------------------------------------" << endl;
 	cout << endl;
 	return true;
