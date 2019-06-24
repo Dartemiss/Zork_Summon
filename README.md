@@ -77,7 +77,7 @@ Enrique Alexandre González Sequeira
 
 Zork Summoners:
 
-There are 8 rooms on the game:
+There are 8 rooms in the game:
 Glade,
 Lake,
 Vulcan,
@@ -87,10 +87,45 @@ Abandoned house,
 Graveyard,
 Cathedral
 
+There are 8 items in the game:
+waterkey,
+grasskey,
+firekey,
+masterkey,
+rubbish,
+oldkey,
+steroids,
+darkorb
+
+There are 9 monsters in the game:
+babydragon,
+babyshark,
+babysnake
+dragon,
+shark,
+snake,
+kingkong,
+blackdragon,
+galiel
+
 The main goal of the game is get to the Cathedral and defeat the high priest and her monster to become a high summoner.
+The game is based in monsters battles where each monster have an elemental type that has strength against some elements and wicknesses to another ones.
+There are five elements:
+-three basic elements: fire > grass > water > fire
+-two especial elements: darkness and light that are always supereffective attacking and recieving attacks.
 
-***********************************************************************************************************
+The game ends if all your monsters die.
+The player can absorb monsters that are dead if their masters are dead too.
 
+IMPORTANT TIP: if u press '-' you can use the last command used, it is very useful for combat.
+
+Example of combat
+aly monster: snake
+enemy monster: dragon
+at [enemy] [ally] [ult?]
+at dragon snake (for basic attack)
+at dragon snake ult (fot ultimate attack)
+********************************************************************************************************
 Guide
 The command help will show a list with all commands and a resume of the main goal and explanation of monsters.
 All commands are not case sensitive.
@@ -114,8 +149,29 @@ Here is Pabl. Talk to him and he will summon Snake. Kill Snake and Pabl. Loot Pa
 Combine the three elemental keys to get the masterkey.
 Go north. Go north.
 
-Town:
 
+Town:
+Here is Ryan. An optional summoner who have KingKong an elemental monkey that will have the element that is strong against your initial partner. It is recomended defeating Ryan in order to absorb KingKong who will be very usefull against the next mosnters. Also you can loot steroids from Ryan, an object that will fully restour a monster's health and give him three focus points.
+Take oldkeys from rubbish.
+Unlock east with oldkeys.
+Go east.
+
+Abandoned house:
+Here you will find a locked door (down)
+Unlock down with masterkey.
+Go down.
+
+Graveyard:
+Here is Dart. Talk to him and he will summon Black Dragon. Kill Black Dragon and Dart. Loot Dart to get Dark Orb. Absorb Black Dragon. Summon Black Dragon.
+Unlock down with dark orb.
+Go down.
+
+Cathedral:
+Here is Lauren. Talk to her and she will summon Galiel. Kill Galiel and Lauren.
+
+
+MAP:
+![alt text](https://github.com/Dartemiss/Zork_Summon/blob/master/Zork_Summon/Images/zorkMap.png)
 
 END
 
