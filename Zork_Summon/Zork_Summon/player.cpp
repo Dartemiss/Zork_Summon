@@ -188,65 +188,6 @@ bool Player::Drop(const vector<string>& args)
 	return false;
 }
 
-// ----------------------------------------------------
-bool Player::Equip(const vector<string>& args)
-{
-	Item* item = (Item*)Find(args[1], ITEM);
-
-	if (item == NULL)
-	{
-		cout << "\nCannot find '" << args[1] << "' is not in your inventory.\n";
-		return false;
-	}
-
-	switch (item->item_type)
-	{
-	case WEAPON:
-		weapon = item;
-		break;
-
-	case ARMOUR:
-		armour = item;
-		break;
-
-	default:
-		cout << "\n" << item->name << " cannot be equipped.\n";
-		return false;
-	}
-
-	cout << "\nYou equip " << item->name << "...\n";
-
-	return true;
-}
-
-// ----------------------------------------------------
-bool Player::UnEquip(const vector<string>& args)
-{
-	if (!IsAlive())
-		return false;
-
-	Item* item = (Item*)Find(args[1], ITEM);
-
-	if (item == NULL)
-	{
-		cout << "\n" << item->name << " is not in your inventory.\n";
-		return false;
-	}
-
-	if (item == weapon)
-		weapon = NULL;
-	else if (item == armour)
-		armour = NULL;
-	else
-	{
-		cout << "\n" << item->name << " is not equipped.\n";
-		return false;
-	}
-
-	cout << "\nYou un-equip " << item->name << "...\n";
-
-	return true;
-}
 
 // ----------------------------------------------------
 bool Player::Examine(const vector<string>& args) const
@@ -269,23 +210,24 @@ bool Player::Examine(const vector<string>& args) const
 bool Player::Attack(const vector<string>& args)
 {
 	Creature* target = (Creature*)parent->Find(args[1], CREATURE);
-	if(target->health_points <= 0)
-	{
-		cout << "\nEnemy is already dead." << endl;
-		cout << endl;
-		return false;
-	}
-	if(Same(target->name, actual_monster->name))
-	{
-		cout << "\nYou cannot attack your own monsters dumbass." << endl;
-		return false;
-	}
-
 	if (target == NULL)
 	{
 		cout << "\n" << args[1] << " is not here.";
 		return false;
 	}
+	if (target->health_points <= 0)
+	{
+		cout << "\nEnemy is already dead." << endl;
+		cout << endl;
+		return false;
+	}
+	if (Same(target->name, actual_monster->name))
+	{
+		cout << "\nYou cannot attack your own monsters dumbass." << endl;
+		return false;
+	}
+
+
 
 	if (target->type == ENEMY && target->myMonster->health_points >= 0)
 	{
@@ -294,14 +236,14 @@ bool Player::Attack(const vector<string>& args)
 		return false;
 	}
 	//If monster have to attack
-	if(args.size() == 3)
+	if (args.size() == 3)
 	{
-		if(actual_monster->health_points <= 0)
+		if (actual_monster->health_points <= 0)
 		{
 			cout << "\nYour actual monster is dead." << endl;
 			return false;
 		}
-		if(!Same(args[2],actual_monster->name))
+		if (!Same(args[2], actual_monster->name))
 		{
 			cout << "\nThis monster does not exist on the field." << endl;
 			cout << endl;
@@ -313,13 +255,13 @@ bool Player::Attack(const vector<string>& args)
 		if (actual_monster->focusPoints < 3)
 			actual_monster->focusPoints += 1;
 
-		ComputeDamage(actual_monster,target);
+		ComputeDamage(actual_monster, target);
 		cout << endl;
 		bool contra = EnemyContrattack(actual_monster, (Monster*)target);
 	}
-	else 
+	else
 	{
-		if(target->type == MONSTER)
+		if (target->type == MONSTER)
 		{
 			cout << "\nYou cannot attack a monster yourself." << endl;
 			cout << endl;
@@ -328,14 +270,19 @@ bool Player::Attack(const vector<string>& args)
 		combat_target = target;
 		cout << "\nYou jump to attack " << target->name << "!\n";
 	}
-	
+
 
 	return true;
 }
 // ----------------------------------------------------
 bool Player::EnemyContrattack(Monster* you, Monster* enemy)
 {
-	if(enemy->health_points <= 0)
+	if (you == NULL || enemy == NULL)
+	{
+		return false;
+	}
+
+	if (enemy->health_points <= 0)
 	{
 		return false;
 	}
@@ -349,12 +296,12 @@ bool Player::EnemyContrattack(Monster* you, Monster* enemy)
 	double total = abs(attack - defense) * multiplier;
 
 	you->health_points -= total;
-	cout << "\nEnemy " << enemy->name << " attacks " << you->name << " dealing " << total << " with " << ((enemy->focusPoints == 3) ? "his ultimate. " : "a basic attack." ) << mult << endl;
+	cout << "\nEnemy " << enemy->name << " attacks " << you->name << " dealing " << total << " with " << ((enemy->focusPoints == 3) ? "his ultimate. " : "a basic attack.") << mult << endl;
 	cout << "[Attack: " << total << " , Defense: " << defense << " , Multiplier: " << multiplier << ".]" << endl;
-	enemy->focusPoints += ((enemy->focusPoints == 3) ? -3 : 1) ;
+	enemy->focusPoints += ((enemy->focusPoints == 3) ? -3 : 1);
 	cout << "My Health points: " << you->health_points << endl;
 	cout << "Enemy focus points: " << enemy->focusPoints << endl;
-	
+
 
 	if (you->health_points <= 0)
 	{
@@ -368,18 +315,23 @@ bool Player::EnemyContrattack(Monster* you, Monster* enemy)
 // ----------------------------------------------------
 bool Player::UltimateAttack(const vector<string>& args)
 {
-	if(!Same(args[3],"ult") && !Same(args[3],"ultimate"))
+	if (!Same(args[3], "ult") && !Same(args[3], "ultimate"))
 	{
 		cout << "\nIncorrect command, did you wanted to use 'ult'/'ultimate'." << endl;
 		return false;
 	}
-	if(actual_monster->focusPoints != 3)
+	if (actual_monster->focusPoints != 3)
 	{
 		cout << "\nYou need 3 focus points in order to use the Ultimate." << endl;
 		cout << endl;
 		return false;
 	}
 	Creature* target = (Creature*)parent->Find(args[1], CREATURE);
+	if (target == NULL)
+	{
+		cout << "\n" << args[1] << " is not here.";
+		return false;
+	}
 	if (target->health_points <= 0)
 	{
 		cout << "\nEnemy is already dead." << endl;
@@ -392,11 +344,7 @@ bool Player::UltimateAttack(const vector<string>& args)
 		return false;
 	}
 
-	if (target == NULL)
-	{
-		cout << "\n" << args[1] << " is not here.";
-		return false;
-	}
+
 
 	if (target->type == ENEMY && target->myMonster->health_points >= 0)
 	{
@@ -433,7 +381,7 @@ bool Player::UltimateAttack(const vector<string>& args)
 	string mult = (multiplier == 2.0f) ? "It's very effective." : "It's not very effective.";
 	if (multiplier == 1.0f)
 		mult = "";
-	cout <<"\n" << actual_monster->name << " uses his ultimate delivering an enormous amount of power to " << target->name << " dealing: " << total << " health points. " << mult << endl;
+	cout << "\n" << actual_monster->name << " uses his ultimate delivering an enormous amount of power to " << target->name << " dealing: " << total << " health points. " << mult << endl;
 	cout << "[Ultimate attack: " << actual_monster->ultimateAttackBonus << " , Defense: " << defense << " , Multiplier: " << multiplier << ".]" << endl;
 	cout << "Enemy Health points: " << target->health_points << endl;
 	actual_monster->focusPoints = 0;
@@ -455,7 +403,7 @@ void Player::ComputeDamage(Monster* attacker, Creature* deffender)
 {
 	double multiplier;
 
-	if (deffender->type == ENEMY) 
+	if (deffender->type == ENEMY)
 	{
 		multiplier = elemental_multipliers(attacker->element_type, "normal");
 	}
@@ -468,7 +416,7 @@ void Player::ComputeDamage(Monster* attacker, Creature* deffender)
 	double damage = Roll(attacker->min_damage, attacker->max_damage);
 	double defense = Roll(deffender->min_protection, deffender->max_protection);
 
-	double total = abs(damage - defense)*multiplier;
+	double total = abs(damage - defense) * multiplier;
 	string mult = (multiplier == 2.0f) ? "It's very effective." : "It's not very effective.";
 	if (multiplier == 1.0f)
 		mult = "";
@@ -477,7 +425,7 @@ void Player::ComputeDamage(Monster* attacker, Creature* deffender)
 	cout << "[Attack: " << damage << " , Defense: " << defense << " , Multiplier: " << multiplier << ".]" << endl;
 	cout << "Enemy Health points: " << deffender->health_points << endl;
 	cout << "Focus points: " << actual_monster->focusPoints << endl;
-	if (deffender->health_points <= 0) 
+	if (deffender->health_points <= 0)
 	{
 		cout << deffender->name << " died." << endl;
 	}
@@ -612,13 +560,13 @@ bool Player::Summon(const vector<string>& args)
 	}
 
 	Monster* monster = (Monster*)magicEther->Find(args[1], MONSTER);
-	
+
 	if (monster == NULL)
 	{
 		cout << "\nMonster: '" << args[1] << "' is not in under your control.\n";
 		return false;
 	}
-	cout <<"\n" << actual_monster->name << " is transported to your magic container." << endl;
+	cout << "\n" << actual_monster->name << " is transported to your magic container." << endl;
 	actual_monster->ChangeParentTo(magicEther);
 	monster->ChangeParentTo(parent);
 	actual_monster = monster;
@@ -637,6 +585,12 @@ bool Player::Absorb(const vector<string>& args)
 
 	Monster* m = (Monster*)parent->Find(args[1], MONSTER);
 
+	if (m == NULL)
+	{
+		cout << "This monster doesn't exist." << endl;
+		return false;
+	}
+
 	if (!m->IsAbsorbable())
 	{
 		return false;
@@ -648,7 +602,7 @@ bool Player::Absorb(const vector<string>& args)
 	cout << "\nYou raise your hand with your mark glowing. A lightning falls from the sky making dissapear the monster." << endl;
 	cout << "You have absorved : " << m->name;
 	cout << endl;
-	
+
 	numberOfMonsters += 1;
 
 	return true;
@@ -663,21 +617,21 @@ bool Player::Use(const vector<string>& args)
 	}
 
 	Item* item = (Item*)Find(args[1], ITEM);
-	if(item == NULL)
+	if (item == NULL)
 	{
 		cout << "\nYou don't have this item." << endl;
 		return false;
 	}
 
-	if(Same(args[1],"steroids"))
+	if (Same(args[1], "steroids"))
 	{
 		Monster* monster = (Monster*)parent->Find(args[2], CREATURE);
-		if(monster == NULL)
+		if (monster == NULL)
 		{
 			cout << "\nThis monster doesn't exist or isn't in the field." << endl;
 			return false;
 		}
-		if(monster->health_points <= 0)
+		if (monster->health_points <= 0)
 		{
 			numberOfMonsters += 1;
 		}
@@ -699,13 +653,13 @@ bool Player::Use(const vector<string>& args)
 bool Player::Talk(const vector<string>& args)
 {
 	Creature* creature = (Creature*)parent->Find(args[1], ENEMY);
-	if(creature == NULL)
+	if (creature == NULL)
 	{
 		cout << "\nThe creature does not exist." << endl;
 		return false;
 	}
-	
-	cout <<"\n" << creature->dialog << endl;
+
+	cout << "\n" << creature->dialog << endl;
 	if (creature->type == ENEMY && !creature->haveTalked)
 	{
 		Monster* monster = (Monster*)creature->myMonster;
@@ -723,7 +677,7 @@ bool Player::StatsMonster(const vector<string>& args)
 {
 	Monster* m = (Monster*)parent->Find(args[1], MONSTER);
 
-	if(m == NULL)
+	if (m == NULL)
 	{
 		cout << "\nThe monster does not exist." << endl;
 		return false;
@@ -749,7 +703,7 @@ bool Player::Combine(const vector<string>& args)
 	ok2 = (Same(args[1], "waterkey") || Same(args[2], "waterkey") || Same(args[3], "waterkey"));
 	ok3 = (Same(args[1], "grasskey") || Same(args[2], "grasskey") || Same(args[3], "grasskey"));
 
-	if(!ok1 || !ok2 || !ok3)
+	if (!ok1 || !ok2 || !ok3)
 	{
 		cout << "\nYou can't combine these ingredients." << endl;
 		return false;
@@ -758,7 +712,7 @@ bool Player::Combine(const vector<string>& args)
 	Item* fire = (Item*)Find("firekey", ITEM);
 	Item* water = (Item*)Find("waterkey", ITEM);
 	Item* grass = (Item*)Find("grasskey", ITEM);
-	
+
 	fire->ChangeParentTo(magicEther);
 	water->ChangeParentTo(magicEther);
 	grass->ChangeParentTo(magicEther);
@@ -779,14 +733,15 @@ bool Player::ListMyMonsters()
 	cout << "\nList of monsters under your control: " << endl;
 	list<Entity*> monsters;
 	magicEther->FindAll(MONSTER, monsters);
-	if(monsters.size() == 0)
+	if (monsters.size() == 0)
 	{
+		cout << "You have no monsters." << endl;
 		return false;
 	}
 	for (list<Entity*>::const_iterator it = monsters.begin(); it != monsters.cend(); ++it)
 	{
 		Monster* aux = (Monster*)(*it);
-		if(Same(aux->master->name,name))
+		if (Same(aux->master->name, name))
 		{
 			cout << aux->name;
 			string alive = (aux->health_points <= 0) ? ("(dead)") : ("(alive)");
@@ -808,11 +763,10 @@ bool Player::ListMyMonsters()
 bool Player::Help()
 {
 	cout << "\n-----------------------------------------------------" << endl;
-	cout << "The objective of the game is defeat the high priest in the last room." << endl;
+	cout << "The objective of the game is to defeat the high priest in the last room." << endl;
 	cout << "If all your monsters or you die the game ends." << endl;
 	cout << "There are 5 elemental types: fire, water, grass, darkness and light." << endl;
 	cout << "(Fire > Grass > Water > Fire) -- darkness and light are supereffective always." << endl;
-	cout << "Monsters have focus points: If they have 3 focus points they can use his ultimate." << endl;
 	cout << "All commands aren't case sensitive, capital letters don't matter" << endl;
 	cout << "These are all the available commands: " << endl;
 	cout << endl;
@@ -820,6 +774,7 @@ bool Player::Help()
 	cout << "take/pick (X) (Y): Take an object X, or take an object Y that is contained in X." << endl;
 	cout << "drop/put (X) (Y): Drop an object X, or drop an object Y that is contained in X." << endl;
 	cout << "attack/at (X) (Y) (Z): Attack enemy X with monster Y, (Z) = (ult/ultimate) for using ultimate." << endl;
+	cout << "******* IMPORTANT TIP: if you press '-' you can use the last command used, it is very useful for combat" << endl;
 	cout << "go (X): Move to X direction." << endl;
 	cout << "north/south/east/west: Move to the desired direction." << endl;
 	cout << "loot/lt (X): Take all objects from dead body X." << endl;
@@ -831,7 +786,6 @@ bool Player::Help()
 	cout << "inventory/i: Look the items that you own." << endl;
 	cout << "use/u (X) (Y): Use steroids = X in monster Y." << endl;
 	cout << "talk/tlk (X): Talk to NPC X." << endl;
-	cout << "monsters/m: Get a list of your monsters and if their are dead or alive." << endl;
 	cout << "-----------------------------------------------------" << endl;
 	cout << endl;
 	return true;
