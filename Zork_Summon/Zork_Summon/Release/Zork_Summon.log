@@ -1,16 +1,5 @@
-﻿  creature.cpp
-  entity.cpp
-  exit.cpp
-  globals.cpp
-  item.cpp
-  monster.cpp
-  player.cpp
-  room.cpp
-  summoner.cpp
-  world.cpp
-  Zork_Summon.cpp
-  Generando código
+﻿  Generando código
   Previous IPDB not found, fall back to full compilation.
-  All 378 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 376 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Generación de código finalizada
-  Zork_Summon.vcxproj -> R:\CV\Aplication_Master\Zork_Summon\Release\Zork_Summon.exe
+  Zork_Summon.vcxproj -> C:\Users\Riqui\Documents\GitHub\Zork_Summon\Zork_Summon\x64\Release\Zork_Summon.exe
