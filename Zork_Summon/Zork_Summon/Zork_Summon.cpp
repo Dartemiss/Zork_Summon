@@ -18,17 +18,19 @@ using namespace std;
 int main()
 {
 	//*********INTRO*********
-	cout << "Welcome to Zork Summoners!" << endl << endl;
+	cout << "Welcome to Zork Summoners!" << endl;
+	cout << "Use [help/h]: to see all commands available" << endl;
+	cout << "*******************************************" << endl;
 	cout << "You just woke up in the middle of a forest." << endl;
 	cout << "The first thing that you remember is the ritual." << endl;
-	cout << "You feel pain in your right hand and open it." << endl;
+	cout << "You feel pain in your right hand but you open it anyways." << endl;
 	cout << "You look at the mark with spiral form on the palm of your hand." << endl;
-	cout << "Then you feel a overwhelming power." << endl;
+	cout << "Then you feel an overwhelming power." << endl;
 	cout << "It is time to summon you little one." << endl;
 	//********INTRO**********
 
 	World myWorld = World();
-	
+
 	string playerInput;
 	char key;
 	bool looping = true;
@@ -83,7 +85,7 @@ int main()
 				lastInput = playerInput;
 				args.clear();
 				playerInput = "";
-					cout << ">";
+				cout << ">";
 			}
 			break;
 		case GAME_VICTORY:
@@ -97,5 +99,5 @@ int main()
 	cout << "Thanks for playing!" << endl;
 	system("pause");
 	return 0;
-	
+
 }

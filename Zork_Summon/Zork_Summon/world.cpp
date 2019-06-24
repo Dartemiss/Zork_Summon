@@ -15,15 +15,15 @@ World::World()
 	//Rooms ---
 	Room* glade = new Room("Glade", " You are on a luminous glade in the middle of a wild forest. There are three stones overflowing with magic.");
 	Room* lake = new Room("Lake", "You walk into the shore of a huge lake with a small island in the middle. There's someone there.");
-	Room* vulcan = new Room("Vulcan", "You are teleported on the top of a vulcan. There's someone waiting above the crater.");
+	Room* vulcan = new Room("Vulcan", "You are teleported to the top of a vulcan. There's someone waiting above the crater.");
 	Room* forest = new Room("Forest", "You are in the middle of a wild forest, where you are surrounded by high trees. You hear someone falling from a tree behind you.");
 	Room* town = new Room("Town", "You walk into a ghost town. You see an old man sitting on a rusty chair in the middle of nowhere.");
 	Room* abandonedHouse = new Room("Abandoned House", "An old house that contains an overwelming amount of magic.");
-	Room* graveyard = new Room("Graveyard","You feel surrounded by darkness. A hooded person is sitting on a grave with your name.");
+	Room* graveyard = new Room("Graveyard", "You feel surrounded by darkness. A hooded person is sitting on a grave with your name.");
 	Room* cathedral = new Room("Cathedral", "You enter into an silent cathedral where everything is in calm. There's someone on the altar.");
 	//Special room
 	Room* ether = new Room("Eter", "The dimension where all creatures that can be summoned live.");
-	
+
 	entities.push_back(glade);
 	entities.push_back(lake);
 	entities.push_back(vulcan);
@@ -33,7 +33,7 @@ World::World()
 	entities.push_back(graveyard);
 	entities.push_back(cathedral);
 	entities.push_back(ether);
-	
+
 	//Player ---
 	player = new Player("Hero", "A new summoner with mysterious powers.", glade);
 	player->health_points = 20;
@@ -47,7 +47,7 @@ World::World()
 	Exit* gladeTown = new Exit("north", "south", "Surprisingly convenient royal road", glade, town);
 	Exit* townHouse = new Exit("east", "west", "Robust door", town, abandonedHouse);
 	townHouse->locked = true;
-	
+
 	Exit* houseGrave = new Exit("down", "up", "An evil portal.", abandonedHouse, graveyard, true);
 	houseGrave->locked = true;
 
@@ -88,9 +88,9 @@ World::World()
 	lauren->type = ENEMY;
 
 	oldMan->dialog = "Combining the three elements is key. All the answers you seek are in my house, but you really think that you are a good summoner? Come here and test your limits. Kong, kill him!";
-	waterSummoner->dialog = "Water is balance. All what you believe is a lie. Come, swim with me. Shark, devour him!";
+	waterSummoner->dialog = "Water is balance. Everything you believe in is a lie. Come, swim with me. Shark, devour him!";
 	fireSummoner->dialog = "You seemed lost. The answers you seek are in the north. But, are you brave enough? Dragon, burn him!";
-	grassSummoner->dialog = "In order to became a master you have to become one with nature! King Snake bite him!";
+	grassSummoner->dialog = "In order to become a master you have to be one with nature! King Snake bite him!";
 	darkSummoner->dialog = "You must accept darkness if you want to defeat the real enemy. Accept your death. Black Dragon, teach him!";
 	lauren->dialog = "Hi, hero! This is your final test. Are you capable of defeating an angel? Come Galiel";
 
@@ -182,9 +182,6 @@ World::World()
 	entities.push_back(angelKnight);
 
 	//Items ---
-	Item* sword = new Item("Sword", "A simple old and rusty sword.", town, WEAPON);
-	sword->min_value = 2;
-	sword->max_value = 6;
 
 	Item* steroids = new Item("Steroids", "A strong drug that can cure a monster.", oldMan, COMMON);
 
@@ -200,7 +197,6 @@ World::World()
 	houseGrave->key = masterKey;
 	graveCathedral->key = darkOrb;
 
-	entities.push_back(sword);
 	entities.push_back(fireKey);
 	entities.push_back(waterKey);
 	entities.push_back(grassKey);
@@ -220,7 +216,7 @@ World::World()
 	while (element != "1" && element != "2" && element != "3")
 	{
 		cin >> element;
-		if (element == "1") 
+		if (element == "1")
 		{
 			//Assign initial fire monster to player (Baby dragon)
 			babyDragon->ChangeParentTo(glade);
@@ -277,16 +273,16 @@ World::World()
 			babyDragon->master = oldMan;
 			cout << "You have summoned your first partner: Baby Snake" << endl;
 		}
-		else 
+		else
 		{
 			cout << "Your command is incorrect. Please choose [1,2,3]" << endl;
 			cout << ">";
 		}
-		
+
 	}
 	elementalMonkey->element_type = player->actual_monster->element_type;
 	entities.push_back(elementalMonkey);
-	
+
 	glade->Look();
 	cout << ">";
 }
@@ -326,10 +322,10 @@ void World::GameLoop()
 }
 
 // ----------------------------------------------------
-int World::checkState() 
+int World::checkState()
 {
-	
-	if (lauren->health_points <= 0 && angelKnight->health_points <= 0) 
+
+	if (lauren->health_points <= 0 && angelKnight->health_points <= 0)
 	{
 		cout << "########################################################################################" << endl;
 		cout << "Congratulations! You have defeated the high priest and stopped the monster annihilation." << endl;
@@ -338,14 +334,14 @@ int World::checkState()
 
 		return 1;
 	}
-	else if(player->health_points<= 0)
+	else if (player->health_points <= 0)
 	{
 		cout << "########################################################################################" << endl;
 		cout << "You died. You and your partners weren't strongest enough." << endl;
 		cout << "Try again. Best luck next time." << endl;
 		return 2;
 	}
-	else if(player->numberOfMonsters <= 0)
+	else if (player->numberOfMonsters <= 0)
 	{
 		cout << "########################################################################################" << endl;
 		cout << "All your monsters have been defeated. You are horrible as a summoner." << endl;
@@ -408,11 +404,11 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->Inventory();
 		}
-		else if(Same(args[0],"monsters")|| Same(args[0],"m"))
+		else if (Same(args[0], "monsters") || Same(args[0], "m"))
 		{
 			player->ListMyMonsters();
 		}
-		else if(Same(args[0], "help") || Same(args[0], "h"))
+		else if (Same(args[0], "help") || Same(args[0], "h"))
 		{
 			player->Help();
 		}
@@ -438,14 +434,6 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->Drop(args);
 		}
-		else if (Same(args[0], "equip") || Same(args[0], "eq"))
-		{
-			player->Equip(args);
-		}
-		else if (Same(args[0], "unequip") || Same(args[0], "uneq"))
-		{
-			player->UnEquip(args);
-		}
 		else if (Same(args[0], "examine") || Same(args[0], "ex"))
 		{
 			player->Examine(args);
@@ -470,7 +458,7 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->StatsMonster(args);
 		}
-		else if(Same(args[0], "talk") || Same(args[0], "tlk"))
+		else if (Same(args[0], "talk") || Same(args[0], "tlk"))
 		{
 			player->Talk(args);
 		}
@@ -512,7 +500,7 @@ bool World::ParseCommand(vector<string>& args)
 		{
 			player->Combine(args);
 		}
-		else if(Same(args[0],"attack") || Same(args[0], "at"))
+		else if (Same(args[0], "attack") || Same(args[0], "at"))
 		{
 			player->UltimateAttack(args);
 		}
